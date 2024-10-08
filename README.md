@@ -15,7 +15,7 @@ ability to reach a broader audience. This project will address that gap by offer
 accessible solution, enhancing the visibility of local products and contributing to the local economy.
 
 #### Key Benefits:
-• Expanding the customer base for local businesses.
-• Increasing revenue for local artisans and manufacturers.
-• Enhancing the local economy by promoting locally sourced products.
-• Offering customers a unique shopping experience that supports the community.
+- Expanding the customer base for local businesses.
+- Increasing revenue for local artisans and manufacturers.
+- Enhancing the local economy by promoting locally sourced products.
+- Offering customers a unique shopping experience that supports the community.
