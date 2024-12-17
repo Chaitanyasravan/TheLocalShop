@@ -13,7 +13,7 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await api.get('/api/products'); // Correct endpoint
+        const response = await api.get('/products'); // Correct endpoint
 
         console.log('Fetched Products:', response.data); // Debug response
         const fetchedProducts = response.data || [];
