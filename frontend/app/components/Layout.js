@@ -1,4 +1,4 @@
-// components/Layout.js
+// app/components/Layout.js
 const Layout = ({ children }) => {
   return (
     <div>

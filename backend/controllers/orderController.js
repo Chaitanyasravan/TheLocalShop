@@ -8,7 +8,14 @@ exports.checkout = async (req, res) => {
     const cart = await Cart.findOne({ user: userId }).populate('products.product');
     if (!cart) return res.status(400).json({ message: 'Cart is empty' });
 
-    const totalAmount = cart.products.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+
+    const totalAmount = cart.products.reduce((sum, item) => {
+      if (!item.product || !item.product.price) {
+        throw new Error('Invalid product data');
+      }
+      return sum + item.product.price * item.quantity;
+    }, 0);
+    
 
     const order = new Order({
       user: userId,

@@ -1,30 +1,41 @@
 // backend/server.js
+
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
+// Load environment variables
 dotenv.config();
+
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
-// Connect to MongoDB
-mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log('Database connection error:', err));
+// Root Test
+app.get('/', (req, res) => res.send('Backend is running successfully!'));
+app.get('/api', (req, res) => res.send('API is running'));
+
+// Import Routes
+const authRoutes = require('./routes/authRoutes');
+const vendorRoutes = require('./routes/vendorRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 // Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/products', require('./routes/productRoutes'));
-app.use('/api/cart', require('./routes/cartRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
+app.use('/api/auth', authRoutes);
+app.use('/api/vendors', vendorRoutes);
+app.use('/api/products', productRoutes);
 
-// Add profile routes
-app.use('/api/profile', require('./routes/profileRoutes')); // <-- New profile route
+// Connect to MongoDB
+mongoose
+  .connect(process.env.DB_URI)
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 // Start Server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+console.log('Available Routes:');
+console.log('/api/auth/seller-register');

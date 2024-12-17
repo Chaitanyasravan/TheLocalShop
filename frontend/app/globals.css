@@ -23,3 +23,22 @@ body {
 h2 {
   color: #0a0;
 }
+
+/* globals.css or a specific CSS file */
+.logo {
+  background-image: url('/logo.jpeg'); /* Ensure the file is in the public folder */
+  background-size: contain; /* Adjust size to fit */
+  background-repeat: no-repeat;
+  background-position: center;
+  display: block;
+  width: 50px; /* Adjust as needed */
+  height: 50px; /* Adjust as needed */
+}
+
+.hero-image {
+  background-image: url('/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 600px; /* Adjust height as needed */
+}

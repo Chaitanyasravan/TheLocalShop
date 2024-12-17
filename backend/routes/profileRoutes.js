@@ -1,11 +1,12 @@
 // backend/routes/profileRoutes.js
+
 const express = require('express');
 const User = require('../models/User'); // Import the User model
-const { verifyToken } = require('../middleware/authMiddleware'); // Ensure the user is authenticated
-const router = express.Router();
+const { authenticateToken } = require('../middleware/authMiddleware'); // Ensure the user is authenticated
+const router = express.Router(); // Initialize the router instance
 
 // PUT /profile - Update user profile
-router.put('/', verifyToken, async (req, res) => {
+router.put('/', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id; // Get user ID from token (assuming JWT token with user ID)
     const { name, email, address } = req.body; // Get the updated profile data from request body

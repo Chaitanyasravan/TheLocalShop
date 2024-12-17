@@ -1,4 +1,4 @@
-// frontend/pages/checkout.js
+// frontend/app/checkout/page.js
 import { useEffect, useState } from 'react';
 import api from '../utils/api';
 
@@ -17,15 +17,19 @@ const Checkout = () => {
   }, []);
 
   const handleCheckout = async () => {
+    const token = localStorage.getItem('token');
+    const decodedToken = jwt_decode(token); // Requires jwt-decode library
+    const userId = decodedToken.id;
+  
     try {
-      await api.post('/order/checkout', { userId: joinUser });
+      await api.post('/orders/checkout', { userId }); // Updated endpoint
       alert('Order placed successfully!');
     } catch (error) {
       console.error(error);
       alert('Checkout failed.');
     }
   };
-
+  
   return (
     <div>
       <h2>Checkout</h2>

@@ -1,17 +1,31 @@
 // backend/routes/authRoutes.js
+const { authenticateToken, authenticateVendor } = require('../middleware/authMiddleware');
 
 const express = require('express');
-const { register, login, getUserProfile } = require('../controllers/authController');
-const { authenticateToken } = require('../middleware/authMiddleware');
+const {
+  register,
+  login,
+  registerSeller,
+  loginSeller,
+} = require('../controllers/authController');
 
 const router = express.Router();
 
-// Authentication Routes
-router.post('/register', register);
-router.post('/login', login);
+// User Authentication Routes
+router.post('/register', register); // Register User
+router.post('/login', login); // Login User
 
-// Protected Route to get user profile details
-router.get('/profile', authenticateToken, getUserProfile);
+// Seller Authentication Routes
+router.post('/seller-register', registerSeller); // Register Seller
+router.post('/seller-login', loginSeller); // Login Seller
 
 module.exports = router;
 
+
+// Protected Routes
+router.get('/profile', authenticateToken, getUserProfile); // User profile
+router.get('/vendor-profile', authenticateVendor, (req, res) => {
+  res.status(200).json({ message: 'Vendor profile accessed', vendorId: req.vendor._id });
+});
+
+module.exports = router;

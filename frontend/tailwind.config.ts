@@ -1,3 +1,4 @@
+//frontend/tailwind.congif.js
 import type { Config } from "tailwindcss";
 
 export default {
@@ -16,3 +17,5 @@ export default {
   },
   plugins: [],
 } satisfies Config;
+
+
