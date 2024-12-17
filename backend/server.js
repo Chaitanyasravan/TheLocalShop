@@ -10,32 +10,28 @@ dotenv.config();
 
 const app = express();
 
+// Import Routes
+const authRoutes = require('./routes/authRoutes');
+
 // Middleware
 app.use(express.json());
 app.use(cors());
 
-// Root Test
-app.get('/', (req, res) => res.send('Backend is running successfully!'));
-app.get('/api', (req, res) => res.send('API is running'));
-
-// Import Routes
-const authRoutes = require('./routes/authRoutes');
-const vendorRoutes = require('./routes/vendorRoutes');
-const productRoutes = require('./routes/productRoutes');
+// Root Test Route
+app.get('/', (req, res) => res.send('Backend is running successfully'));
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/vendors', vendorRoutes);
-app.use('/api/products', productRoutes);
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/vendors', require('./routes/vendorRoutes'));
+app.use('/api/products', require('./routes/productRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.DB_URI)
+  .connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected successfully'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Start Server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-console.log('Available Routes:');
-console.log('/api/auth/seller-register');
