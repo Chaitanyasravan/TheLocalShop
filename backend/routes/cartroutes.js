@@ -40,4 +40,36 @@ router.post('/:productId', authenticateUser, async (req, res) => {
   }
 });
 
+// Fetch user's cart
+router.get('/', authenticateUser, async (req, res) => {
+  const userId = req.user._id;
+
+  try {
+    // Find the user's cart and populate product details
+    const cart = await Cart.findOne({ user: userId })
+        .populate('products.product', 'name description price') // Populate product fields
+        .exec();
+
+    if (!cart || cart.products.length === 0) {
+      return res.status(200).json([]); // Return an empty array if no cart or products exist
+    }
+
+    // Transform cart data for clean response
+    const cartData = cart.products.map((item) => ({
+      product: {
+        _id: item.product._id,
+        name: item.product.name,
+        description: item.product.description,
+        price: item.product.price,
+      },
+      quantity: item.quantity,
+    }));
+
+    res.status(200).json(cartData);
+  } catch (error) {
+    console.error('Error fetching cart:', error.message);
+    res.status(500).json({ message: 'Error fetching cart', error: error.message });
+  }
+});
+
 module.exports = router;
