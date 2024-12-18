@@ -12,6 +12,10 @@ const app = express();
 
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
+const vendorRoutes = require('./routes/vendorRoutes');
+const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const cartRoutes = require('./routes/cartRoutes'); // Import cartRoutes
 
 // Middleware
 app.use(express.json());
@@ -21,10 +25,11 @@ app.use(cors());
 app.get('/', (req, res) => res.send('Backend is running successfully'));
 
 // Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/vendors', require('./routes/vendorRoutes'));
-app.use('/api/products', require('./routes/productRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
+app.use('/api/auth', authRoutes);
+app.use('/api/vendors', vendorRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/cart', cartRoutes); // Register cartRoutes here
 
 // Connect to MongoDB
 mongoose

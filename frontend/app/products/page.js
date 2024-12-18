@@ -8,7 +8,7 @@ import api from '../utils/api';
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-
+  const [cartLoading, setCartLoading] = useState({}); // Track loading state for Add to Cart
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,6 +32,23 @@ const Products = () => {
   const filteredProducts = products.filter((product) =>
     product?.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Function to handle Add to Cart
+  const handleAddToCart = async (productId) => {
+    setCartLoading((prev) => ({ ...prev, [productId]: true })); // Start loading for this product
+    try {
+      const response = await api.post(`/cart/${productId}`, {
+        quantity: 1, // Default quantity set to 1
+      });
+      console.log('Add to Cart Response:', response.data);
+      alert('Product added to cart successfully!');
+    } catch (error) {
+      console.error('Error adding to cart:', error.response?.data || error.message);
+      alert('Failed to add product to cart.');
+    } finally {
+      setCartLoading((prev) => ({ ...prev, [productId]: false })); // Stop loading
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
@@ -67,6 +84,14 @@ const Products = () => {
                 <p className="text-yellow-600 font-bold mt-2">
                   ${product.price ? product.price.toFixed(2) : '0.00'}
                 </p>
+                {/* Add to Cart Button */}
+                <button
+                    onClick={() => handleAddToCart(product._id)}
+                    className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+                    disabled={cartLoading[product._id]} // Disable while loading
+                >
+                  {cartLoading[product._id] ? 'Adding...' : 'Add to Cart'}
+                </button>
               </div>
             ))}
           </div>
