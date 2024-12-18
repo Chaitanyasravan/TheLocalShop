@@ -12,7 +12,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await api.get('/cart');
+        const response = await api.get('/api/cart');
         setCart(response.data);
 
         // Calculate total

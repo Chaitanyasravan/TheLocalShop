@@ -8,7 +8,7 @@ import api from '../utils/api';
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [cartLoading, setCartLoading] = useState({}); // Track loading state for Add to Cart
+  const [cartLoading, setCartLoading] = useState({});
 
   useEffect(() => {
     const fetchProducts = async () => {
